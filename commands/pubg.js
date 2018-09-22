@@ -19,6 +19,8 @@ module.exports.run=async(bot, message, args) =>{
 
        return message.channel.send(embed);
    }
+
+   //Gets the player profile statistics
    async function getProfileStats(username) {
     //Accessses the API 
     let {body} = await superagent
@@ -39,13 +41,7 @@ module.exports.run=async(bot, message, args) =>{
             return body;
         }
    }
-
-   let stats = body.data;
-   let id = stats.id;
-   let playername=stats.attributes.name;
-   return{
-    playername,id   
-    };
+   
 }
 
 module.exports.help = {
