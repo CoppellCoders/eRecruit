@@ -1,7 +1,7 @@
 //Importing modules and required files
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableEveryone: true });
-const dotenv = require('dotenv').config();
+//const dotenv = require('dotenv').config();
 
 //Command Handler
 const fileSys = require("fs");
