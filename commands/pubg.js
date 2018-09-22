@@ -1,4 +1,3 @@
-
 const Discord = require("discord.js");
 const superagent = require("superagent");
 
@@ -8,19 +7,17 @@ module.exports.run=async(bot, message, args) =>{
         return message.channel.send("Error. Please specify a username for PUBG `.pubg <username> `");
     }
     let username =args[0];
-    //let result = checkUsername(username); //Checks if username is a valid PUBG username
-
+    
 
    if(!args[2]){
        let profileStats= await getProfileStats(username); //Gets basic stats
-      // let playerStats=await getPlayerStats(username); //Get more detailed stats
 
-       let embed= new Discord.RichEmbed().setTitle(`##PUBG STATS FOR ${profileStats.playername.toUpperCase()}##`);
+        console.log(profileStats);
+
+       let embed= new Discord.RichEmbed().setTitle(`##PUBG STATS FOR ${profileStats.name.toUpperCase()}##`);
 
        return message.channel.send(embed);
    }
-
-   //Gets the player profile statistics
    async function getProfileStats(username) {
     //Accessses the API 
     let {body} = await superagent
@@ -38,10 +35,16 @@ module.exports.run=async(bot, message, args) =>{
             return message.channel.send(
                 "Error occured while retrieving player stats. Please try again later"
             );
-            return body;
+           
         }
+        let stats = body.data;
+        let id = stats.id;
+        let playername=stats[0].attributes.name;
+        return{
+         name: playername, 
+         id: id   
+         };
    }
-   
 }
 
 module.exports.help = {
