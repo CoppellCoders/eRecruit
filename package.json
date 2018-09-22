@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "csgo-stats": "0.0.26",
     "discord.js": "^11.4.2",
     "dotenv": "^6.0.0",
     "fs": "0.0.1-security",
