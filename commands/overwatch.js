@@ -73,9 +73,7 @@ module.exports.run = async (bot, message, args) => {
       .addField(`Solo Kills`, `${playerStats.stats.combat.competitive[7].value}`, true)
       .addField(`Healing Done`, `${playerStats.stats.assists.competitive[3].value}`, true)
       .addField(`Objective Kills`, `${playerStats.stats.combat.competitive[9].value}`, true)
-      .addField(`Objective Time`, `${playerStats.stats.combat.competitive[8].value}`, true)
-      .addBlankField()
-      .addField("Note", "If you like the bot and want it to be active, use the **`.donate`** command to support the bot's server costs. ");
+      .addField(`Objective Time`, `${playerStats.stats.combat.competitive[8].value}`, true);
 
     return message.channel.send(embed); //Sends stats
   }
@@ -96,8 +94,6 @@ module.exports.run = async (bot, message, args) => {
       .addField(`Competitive`, `Main Heroes - Fluent Heroes`)
       .addField(`Main Heroes`, `1. **${heroStats.compName[0]}** - ${heroStats.compGames[0]} wins - ${heroStats.compTime[0]}\n2. **${heroStats.compName[1]}** - ${heroStats.compGames[1]} wins - ${heroStats.compTime[1]}\n3. **${heroStats.compName[2]}** - ${heroStats.compGames[2]} - ${heroStats.compTime[3]}`, true)
       .addField(`Fluent Heroes`, `4. **${heroStats.compName[3]}** - ${heroStats.compGames[3]} wins - ${heroStats.compTime[3]}\n5. **${heroStats.compName[4]}** - ${heroStats.compGames[4]} wins - ${heroStats.compTime[4]}`, true)
-      .addBlankField()
-      .addField("Note", "If you like the bot and want it to be active, use the **`.donate`** command to support the bot's server costs. ");
 
     return message.channel.send(embed); //Sends stats
   }
