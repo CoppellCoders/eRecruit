@@ -1,11 +1,7 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-const dotenv = require('dotenv').config();
-
 //Importing modules and required files
-const config = require("./config.json");
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableEveryone: true });
+const dotenv = require('dotenv').config();
 
 //Command Handler
 const fileSys = require("fs");
@@ -39,7 +35,7 @@ bot.on("message", async message => {
   if (message.channel.type == "dm") return; //Don't respond to dm's sent to the bot
 
   //Variable declarations
-  let prefix = config.prefix;
+  let prefix = process.env.prefix;
   let msgarray = message.content.split(" "); //Splits the msg everytime there is a space
   let cmd = msgarray[0]; //Assigns the first word in msg to cmd variable. Ex: "!play"
   let args = msgarray.slice(1); //Cuts off the cmd part of the msg and assigns the rest to args variable
