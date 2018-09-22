@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const fetch = require('node-fetch');
-
+var fs = require('fs');
 //help
 module.exports.run = async (bot, message, args) => {
   var command = args[0];
@@ -16,6 +16,8 @@ module.exports.run = async (bot, message, args) => {
             champIds[obj[key]['key']] = key;
         })
     })
+    
+
     var region = args[1];
     region = region.toUpperCase();
     var username = args[2];
@@ -27,11 +29,12 @@ module.exports.run = async (bot, message, args) => {
     }).then(function(response){
         return response.json();
     }).then(function(json){
-        var accountId = json['id'];
+        var summonerId = json['id'];
+        var accountId = json['accountId'];
         var name = json['name'];
         var level = json['summonerLevel'];
         var icon = json['profileIconId'];
-        var masteryUrl = 'https://'+prefix+'.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/'+parseInt(accountId);
+        var masteryUrl = 'https://'+prefix+'.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/'+parseInt(summonerId);
         fetch(masteryUrl, {
             method: 'GET',
             headers: {'X-Riot-Token': process.env.league_key}
@@ -46,7 +49,7 @@ module.exports.run = async (bot, message, args) => {
             .addField('Top Mastery: ', `[${json[0]['championLevel']}] 1.${champIds[json[0]['championId']]} : ${json[0]['championPoints']}
             [${json[1]['championLevel']}] 2.${champIds[json[1]['championId']]} : ${json[1]['championPoints']}
             [${json[2]['championLevel']}] 3.${champIds[json[2]['championId']]} : ${json[2]['championPoints']}`, true)
-            var rankUrl = 'https://'+prefix+'.api.riotgames.com/lol/league/v3/positions/by-summoner/'+parseInt(accountId);
+            var rankUrl = 'https://'+prefix+'.api.riotgames.com/lol/league/v3/positions/by-summoner/'+parseInt(summonerId);
             fetch(rankUrl, {
                 method: 'GET',
                 headers: {'X-Riot-Token': process.env.league_key}
@@ -71,19 +74,23 @@ module.exports.run = async (bot, message, args) => {
                 }catch(e){
 
                 }
-                var livegameUrl = 'https://'+prefix+'.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/'+parseInt(accountId);
+                var livegameUrl = 'https://'+prefix+'.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/'+parseInt(summonerId);
                 fetch(livegameUrl, {
                     method: 'GET',
                     headers: {'X-Riot-Token': process.env.league_key}
                 }).then(function(response){
                     return response.json();
-                }).then(function(json){
-                    console.log(json['gameId']);
+                }).then(async function(json){
                     if(json['gameId']){
-                        embed.addField('Live Game', `${username} is in game`)
+                        var obj = JSON.parse(fs.readFileSync('./commands/gamemodes.json', 'utf8'));
+                        embed.addField('Live Game', `${username} has been playing ${obj[json['gameQueueConfigId']]["Custom"]} for ${Math.floor(json['gameLength']/60)} minutes and ${json['gameLength']%60} seconds`)
                     }else{
                         embed.addField('Live Game', `${username} is not currently in game`)
                     }
+                    var temp = await getLastMatch(prefix, accountId);
+                    var matchData = await getMatchStats(temp['gameId'], accountId, prefix);
+                    embed.addField('Last Game', `${username} played ${champIds[matchData.champion]} and went ${matchData.kills}/${matchData.deaths}/${matchData.assists} and had ${matchData.cs} CS`)
+                    console.log(matchData);
                     message.channel.send(embed);
                 })
                 
@@ -97,6 +104,59 @@ module.exports.run = async (bot, message, args) => {
       return message.channel.send('Invalid argument');
   }
 };
+
+
+
+async function getLastMatch(prefix, accountId){
+    return new Promise(function(resolve, reject){
+        var requestUrl = 'https://'+prefix+'.api.riotgames.com/lol/match/v3/matchlists/by-account/'+parseInt(accountId);
+        var myValue = "hi";
+        fetch(requestUrl,{
+            method: 'GET',
+            headers: {'X-Riot-Token': process.env.league_key}
+        }).then(function(response){
+            return response.json();
+        }).then(function(json){
+            resolve(json['matches'][0]);
+        })
+    })
+
+}
+
+async function getMatchStats(matchId, accountId, prefix){
+    return new Promise(function(resolve, reject){
+        var requestUrl = 'https://'+prefix+'.api.riotgames.com/lol/match/v3/matches/'+parseInt(matchId);
+        fetch(requestUrl,{
+            method: 'GET',
+            headers: {'X-Riot-Token': process.env.league_key}
+        }).then(function(response){
+            return response.json();
+        }).then(function(json){
+            var participants = json['participantIdentities'];
+            var participantId = -1;
+            for(var i = 0; i < participants.length; i++){
+                if(participants[i]['player']['accountId'] == accountId){
+                    participantId = i;
+                    break;
+                }
+            }
+            var kills = json['participants'][participantId]['stats']['kills'];
+            var deaths = json['participants'][participantId]['stats']['deaths'];
+            var assists = json['participants'][participantId]['stats']['assists'];
+            var champion = json['participants'][participantId]['championId'];
+            var cs = json['participants'][participantId]['stats']['totalMinionsKilled'];
+            var data = {
+                kills: kills,
+                deaths: deaths,
+                assists: assists,
+                champion: champion,
+                cs: cs
+            };
+            resolve(data);
+
+        })
+    })
+}
 
 
 function getPrefix(region){
