@@ -12,5 +12,6 @@
     "discord.js": "^11.4.2",
     "dotenv": "^6.0.0",
     "fs": "0.0.1-security"
+    "nodemon": "^1.18.4"
   }
 }
