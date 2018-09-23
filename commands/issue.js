@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 module.exports.run = async (bot, message, args) => {
   let embed = new Discord.RichEmbed()
-    .setTitle("## REPORT AN ISSUE WITH THE BOT ##")
+    .setTitle("** REPORT AN ISSUE WITH THE BOT **")
     .setDescription(
       "Unfortunately, nothing is perfect. Please report any abnormal activity from the bot and if any commands are unresponsive."
     )

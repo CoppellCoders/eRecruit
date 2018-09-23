@@ -30,7 +30,7 @@ module.exports.run = async (bot, message, args) => {
       let shotsHit = stats[41].value;
       // console.log(kills);
       let embed = new Discord.RichEmbed()
-        .setTitle(`## CSGO STATS FOR ${args[0].toUpperCase()} ##`)
+        .setTitle(`** CSGO STATS FOR ${args[0].toUpperCase()} **`)
         .setThumbnail(steamID.avatar)
         .setColor("#4298f4")
         .addField("Profile Overview", `Overall Stats for **${args[0]}**`)
