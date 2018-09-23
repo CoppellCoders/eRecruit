@@ -1,6 +1,6 @@
 # eRecruit
 
-A discord bot that shows gamestats of potential esport =s recruitees.
+A discord bot that shows gamestats of potential esport recruitees.
 
 Made by:
 
@@ -63,4 +63,4 @@ Follow this link to invite the bot:
 
 - `.profile sample recruiter` : To see a sample recruiter profile
 
-**Made for the Gamechangers Hackathon 2018**
+**1st Place Winners of Gamechangers Hackathon 2018**
