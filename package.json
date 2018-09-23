@@ -11,7 +11,11 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "dotenv": "^6.0.0",
+    "firebase": "^5.5.1",
+    "fortnite": "^4.1.1",
+    "fortnite-api": "^2.14.0",
     "fs": "0.0.1-security",
+    "node-fetch": "^2.2.0",
     "nodemon": "^1.18.4"
   }
 }
