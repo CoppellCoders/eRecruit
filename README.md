@@ -1,4 +1,4 @@
-# Ecruit
+# eRecruit
 Esport recruiting 
 
 # How to set up  
