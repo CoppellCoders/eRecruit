@@ -21,9 +21,9 @@ module.exports.run = async (bot, message, args) => {
 
   
   var database = firebase.database();
-  var location = database.ref("users/"+message.author.id)
-  if(args[0]=="sample"){
-    if(args[1]=="player"){
+  var location = database.ref("users/"+message.author.id);
+  if(args[0]&&args[0].toLowerCase()=="sample"){
+    if(args[0]&&args[1].toLowerCase()=="player"){
       var colors = ["#1162bc","#df6bed","#2ce28c","#da785b","#4b7bff","#e79c4a","#4c7a70","#7acdc3"];
       let squadEmbed = new Discord.RichEmbed()
       .setTitle("FlaSh's Profile | PLAYER")
@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
 
 
 
-    }else if(args[1]=="recruiter"){
+    }else if(args[1]&&args[1].toLowerCase()=="recruiter"){
       
         let squadEmbed = new Discord.RichEmbed()
         .setTitle("Dylan Wray's Profile | RECRUITER")
@@ -67,9 +67,10 @@ module.exports.run = async (bot, message, args) => {
        
     }
 
-  }else if(args[0]=="create"){
-  if(args[1]=="player"||args[1]=="recruiter"){
+  }else if(args[0]&&args[0].toLowerCase()=="create"){
+  if(args[1]&&(args[1].toLowerCase()=="player"||args[1].toLowerCase()=="recruiter")){
   
+
     location.once('value', function(snapshot) {
         
           
@@ -92,16 +93,25 @@ module.exports.run = async (bot, message, args) => {
         }).catch(function(error) {
           console.log('Failed:', error);
         });
-  
-        message.channel.send("Sucessfully created a " +args[1] + " account for " + message.author.username);
+        let rolePlayer = message.guild.roles.find("name","Player");
+        let roleRec = message.guild.roles.find("name","Recruiter");
+        console.log("lol  "+rolePlayer);
+  if(args[1].toLowerCase()=='player'){
+
+    message.member.addRole(rolePlayer).catch(console.error);
+  }else{
+
+    message.member.addRole(roleRec).catch(console.error);
+  }
+        message.channel.send("Sucessfully created a " +args[1] + " account for <@" + message.author.id+">");
        
       }
    })
 
 }
-}else if(args[0]=="set"){
+}else if(args[0]&&args[0].toLowerCase()=="set"){
     console.log("hahah")
-    if(args[1]=="fortnite"||args[1]=="fn"){
+    if(args[1].toLowerCase()=="fortnite"||args[1].toLowerCase()=="fn"){
       console.log("fuk")
       if(args[2]){
         console.log("yeeee") 
@@ -138,7 +148,7 @@ module.exports.run = async (bot, message, args) => {
 
 
 
-    }else if(args[1]=="ow"){
+    }else if(args[1]&&args[1].toLowerCase()=="ow"){
       console.log("fuk")
       if(args[2]){
         console.log("yeeee") 
@@ -168,7 +178,7 @@ module.exports.run = async (bot, message, args) => {
           }
        })
       }
-    }else if(args[1]=="csgo"){
+    }else if(args[1]&&args[1].toLowerCase()=="csgo"){
       console.log("fuk")
       if(args[2]){
         console.log("yeeee") 
@@ -198,9 +208,9 @@ module.exports.run = async (bot, message, args) => {
           }
        })
       }
-    }else if(args[1]=="lol"){
+    }else if(args[1]&&args[1].toLowerCase()=="lol"){
       console.log("fuk")
-      if(args[2]){
+      if(args[2].toLowerCase()){
         console.log("yeeee") 
          var username="";
         for(var x=2;x<args.length;x++){
@@ -228,9 +238,9 @@ module.exports.run = async (bot, message, args) => {
           }
        })
       }
-    }else if(args[1]=="descrip"){
+    }else if(args[1]&&args[1].toLowerCase()=="descrip"){
       console.log("fuk")
-      if(args[2]){
+      if(args[2]&&args[2]){
         console.log("yeeee") 
          var username="";
         for(var x=2;x<args.length;x++){
@@ -258,13 +268,13 @@ module.exports.run = async (bot, message, args) => {
           }
        })
       }
-    }else if(args[1]=="color"){
+    }else if(args[1]&&args[1].toLowerCase()=="color"){
       var re = /[0-9A-Fa-f]{6}/g;
 var inputString = args[2];
 
 if(re.test(inputString)) {
   console.log("fuk")
-  if(args[2]){
+  if(args[2]&&args[2].toLowerCase()){
     console.log("yeeee") 
      var username="";
     for(var x=2;x<args.length;x++){
@@ -301,9 +311,9 @@ if(re.test(inputString)) {
     "Invaild hex color `Example: #80cb8e`"
   ); //Send error message
 }
-    }else if(args[1]=="footer"){
+    }else if(args[1]&&args[1]=="footer"){
       console.log("fuk")
-      if(args[2]){
+      if(args[2]&&args[2]){
         console.log("yeeee") 
          var username="";
         for(var x=2;x<args.length;x++){
@@ -339,9 +349,9 @@ if(re.test(inputString)) {
        })
 
       }
-    }else if(args[1]=="school"){
+    }else if(args[1]&&args[1].toLowerCase()=="school"){
       console.log("fuk")
-      if(args[2]){
+      if(args[2].toLowerCase()){
         console.log("yeeee") 
          var username="";
         for(var x=2;x<args.length;x++){
@@ -369,7 +379,7 @@ if(re.test(inputString)) {
           }
        })
       }
-    }else if(args[1]=="contact"){
+    }else if(args[1]&&args[1].toLowerCase()=="contact"){
       console.log("fuk")
       if(args[2]){
         console.log("yeeee") 
@@ -399,9 +409,9 @@ if(re.test(inputString)) {
           }
        })
       }
-    }else if(args[1]=="scholarship"){
+    }else if(args[1]&&args[1].toLowerCase()=="scholarship"){
       console.log("fuk")
-      if(args[2]){
+      if(args[2].toLowerCase()){
         console.log("yeeee") 
          var username="";
         for(var x=2;x<args.length;x++){
@@ -429,9 +439,9 @@ if(re.test(inputString)) {
           }
        })
       }
-    }else if(args[1]=="esports"){
+    }else if(args[1]&&args[1].toLowerCase()=="esports"){
       console.log("fuk")
-      if(args[2]){
+      if(args[2]&&args[2]){
         console.log("yeeee") 
          var username="";
         for(var x=2;x<args.length;x++){
@@ -459,9 +469,9 @@ if(re.test(inputString)) {
           }
        })
       }
-    }else if(args[1]=="social"){
+    }else if(args[1]&&args[1].toLowerCase()=="social"){
       console.log("fuk")
-      if(args[2]){
+      if(args[2]&&args[2]){
         console.log("yeeee") 
          var username="";
         for(var x=2;x<args.length;x++){
@@ -496,7 +506,7 @@ if(re.test(inputString)) {
 
     }
 
-  }else  if (args[0]=="get"){
+  }else  if (args[0]&&args[0].toLowerCase()=="get"){
    console.log("nugg");
    try{
     var ref = database.ref("users/" + message.mentions.users.first().id);
@@ -576,9 +586,11 @@ if(re.test(inputString)) {
 
   }
 
-
-  };
-
+else{
+  return message.channel.send(
+    "The profile system is used to connect esport players with recrutiers. \n**Create an Account:** `.profile create [player/recruiter]`\n**Players:**: `.profile set [fn, ow, csgo, lol, descrip, color, footer] {username or text}`\n**Recruiters:**: `.profile set [school, contact , scholarship, esports, social, descrip, color, footer] {username or text}`."
+  )};
+  }
  
 
  
