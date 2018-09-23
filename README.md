@@ -35,19 +35,32 @@ Follow this link to invite the bot:
 
 #### Fortnite
 
-- `.fbr <epic-username [platform pc/xbl/psn]` : Shows lifetime stats of user. Example: `.fbr Ninja pc`
-- `.fbr <epic-username> [platform pc/xbl/psn] {mode all/season}` : Shows Solo/Duo/Squad stats (all) and Season Solo/Duo/Squad stats (season). Example: `.fbr Ninja pc season`
-- `.fbr drop` : Randomly picks a spot on the fortnite map
+- `.fn <epic-username [platform pc/xbl/psn]` : Shows lifetime stats of user. Example: `.fn Ninja pc`
+- `.fn <epic-username> [platform pc/xbl/psn] {mode all/season}` : Shows Solo/Duo/Squad stats (all) and Season Solo/Duo/Squad stats (season). Example: `.fn Ninja pc season`
+- `.fn drop` : Randomly picks a spot on the fortnite map
 
-#### League of Legends (NA ONLY, NO 24x7 SUPPORT)
-
-- `.lol <summoner-name>` : Shows the profile overview of user. Example: `.lol parrot15`
 
 #### Overwatch
 
 - `.ow <username#battleTag> [platform pc/psn/xbl]` : Shows profile stats of user. Example: `.ow Finnsi#2664 pc`
 - `.ow <username#battleTag> [platform pc/psn/xbl] top/heroes` : Shows Top 5 hero stats of user. Example: `.ow Finnsi#2664 pc top`
 
-### More Commands Coming Soon...
+#### League of Legends
 
-Made for the Gamechangers Hackathon 2018
+- `.lol <region> <summoner-name>` : Shows the profile overview of user. Example: `.lol na parrot15`
+
+### Profile
+
+- `.profile create player` : To create a player profile
+
+- `.profile create recruiter` : To create a recruiter profile
+
+- `.profile set [fn, ow, csgo, lol, descrip, color, footer] {username or text}` : To set details about a player profile. 
+
+- `.profile set [school, contact , scholarship, esports, social, descrip, color, footer] {username or text}` : To set details about a recruiter profile
+
+- `.profile sample player` : To see a sample player profile
+
+- `.profile sample recruiter` : To see a sample recruiter profile
+
+**Made for the Gamechangers Hackathon 2018**
