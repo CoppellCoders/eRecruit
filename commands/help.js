@@ -4,8 +4,9 @@ const Discord = require("discord.js");
 module.exports.run = async (bot, message, args) => {
   let embed = new Discord.RichEmbed()
   .setTitle("**Fortnite**")
-  .addField("To get leaderboard ","`.fbr lb [platform pc/xbl/psn] {solo,duo,squad}`")
-  .addField("To get an individual profile stats","`.fbr <epic-username> [platform pc/xbl/psn] {mode all/season}`")
+  .addField("To get leaderboard ","`.fn lb [platform pc/xbl/psn] {solo,duo,squad}`")
+  .addField("To get an individual profile stats","`.fn <epic-username> [platform pc/xbl/psn] {mode all/season}`")
+  .addField("To get a drop location","`.fn drop`")
   .setColor("#9400D3")
   .setThumbnail("https://vignette.wikia.nocookie.net/fortnite/images/6/61/Battle_Royale_logo.png/revision/latest/scale-to-width-down/480?cb=20180313000428")
   message.channel.send(embed);
