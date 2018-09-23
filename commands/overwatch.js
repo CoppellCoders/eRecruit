@@ -40,7 +40,7 @@ module.exports.run = async (bot, message, args) => {
   //Checks if provided platform matches with required platform format pc/psn/xbl
   if (platform == "wrong")
     return message.channel.send(
-      "Error. Please specify a **valid** platform pc/psn/xbl. `!ow <username#battleTag> [platform pc/psn/xbl]`"
+      "Error. Please specify a **valid** platform pc/psn/xbl. `.ow <username#battleTag> [platform pc/psn/xbl]`"
     );
 
   if (!args[2]) {
@@ -49,7 +49,7 @@ module.exports.run = async (bot, message, args) => {
 
     //prettier-ignore
     let embed = new Discord.RichEmbed()
-      .setTitle(`## OVERWATCH STATS FOR ${profileStats.username.toUpperCase()} ##`)
+      .setTitle(`** OVERWATCH STATS FOR ${profileStats.username.toUpperCase()} **`)
       .setThumbnail(`${profileStats.portrait}`)
       .setColor("#f4d442")
       .addField(`Username`, `${profileStats.username}`, true)
@@ -84,7 +84,7 @@ module.exports.run = async (bot, message, args) => {
 
     //prettier-ignore
     let embed = new Discord.RichEmbed()
-      .setTitle(`## OVERWATCH TOP HEROES FOR ${playerStats.username.toUpperCase()} ##`)
+      .setTitle(`** OVERWATCH TOP HEROES FOR ${playerStats.username.toUpperCase()} **`)
       .setDescription("Hero Name - Games Won - Time Played")
       .setColor("#f4d442")
       .addField(`Quickplay`, `Main Heroes - Fluent Heroes`)
@@ -105,14 +105,14 @@ module.exports.run = async (bot, message, args) => {
       .on("error", err => {
         //console.error(err);
         return message.channel.send(
-          "Error occurred while retrieving player stats. Please try again later. `!ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
+          "Error occurred while retrieving player stats. Please try again later. `.ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `.issue` command to report any issues with the bot**"
         );
       });
 
     //API error handling
     if (Object.keys(body).length === 0)
       return message.channel.send(
-        "Error occurred while retrieving player stats. Please try again later. `!ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
+        "Error occurred while retrieving player stats. Please try again later. `.ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `.issue` command to report any issues with the bot**"
       );
 
     //Checks if profile is set to private
@@ -131,14 +131,14 @@ module.exports.run = async (bot, message, args) => {
       .on("error", err => {
         //console.error(err);
         return message.channel.send(
-          "Error occurred while retrieving player stats. Please try again later. `!ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
+          "Error occurred while retrieving player stats. Please try again later. `.ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `.issue` command to report any issues with the bot**"
         );
       });
 
     //API error handling
     if (Object.keys(body).length === 0)
       return message.channel.send(
-        "Error occurred while retrieving player stats. Please try again later. `!ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
+        "Error occurred while retrieving player stats. Please try again later. `.ow <username#battleTag> [platform pc/psn/xbl]`\n\n **If this problem keeps arising, make sure you use the `.issue` command to report any issues with the bot**"
       );
 
     return body;
