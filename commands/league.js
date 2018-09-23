@@ -43,11 +43,13 @@ module.exports.run = async (bot, message, args) => {
             return response.json();
         }).then(function(json){
             let embed = new Discord.RichEmbed()
-            embed.setThumbnail('http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/'+icon+'.png')
+            //embed.setThumbnail('http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/'+icon+'.png')
+            embed
             .setColor('#FFDF00')
             .setTitle(`LOL PROFILE: ${name.toUpperCase()}`)
             .addField(`Level/Region`, `${level}/${region}`, true)
-            .addField('Recent Games', `${winRates.games} G ${winRates.wins}W/${winRates.losses}L WR: ${winRates.percent} %`)
+            .addField('Recent Games', `${winRates.games} G ${winRates.wins}W/${winRates.losses}L WR: ${winRates.percent} %`, true)
+            .addBlankField(true)
             .addField('Top Mastery: ', `[${json[0]['championLevel']}] 1.${champIds[json[0]['championId']]} : ${json[0]['championPoints']}
             [${json[1]['championLevel']}] 2.${champIds[json[1]['championId']]} : ${json[1]['championPoints']}
             [${json[2]['championLevel']}] 3.${champIds[json[2]['championId']]} : ${json[2]['championPoints']}`, true)
@@ -58,21 +60,20 @@ module.exports.run = async (bot, message, args) => {
             }).then(function(response){
                 return response.json();
             }).then(function(json){
-                embed.addBlankField();
                 try{
                 var soloRank = json[0]['tier'] + " " + json[0]['rank']  +" "+ json[0]['leaguePoints'] + "LP";
                 var soloWins = parseInt(json[0]['wins']);
                 var soloLosses = parseInt(json[0]['losses']);
-                var soloStats = (soloWins+soloLosses+"G") +" " + json[0]['wins']+"W/"+json[0]['losses']+"L " + Math.round((soloWins)/(soloWins+soloLosses)*100) +"%";
-                embed.addField('Ranked Solo', soloRank + "\n" + soloStats, true);
+                var soloStats = (soloWins+soloLosses+"G") +" " + json[0]['wins']+"W/"+json[0]['losses']+"L";
+                embed.addField('Ranked Solo', soloRank + "\n" + soloStats + "\n WR: " + Math.round((soloWins)/(soloWins+soloLosses)*100) +"%", true);
                 }catch(e){
 
                 }try{
                 var flexRank = json[1]['tier'] + " " + json[1]['rank']  +" "+ json[1]['leaguePoints'] + "LP";
                 var flexWins = parseInt(json[1]['wins']);
                 var flexLosses = parseInt(json[1]['losses']);
-                var flexStats = (flexWins+flexLosses+"G") +" " + json[1]['wins']+"W/"+json[1]['losses']+"L " + Math.round((flexWins)/(flexWins+flexLosses)*100) +"%";
-                embed.addField('Ranked Flex', flexRank + "\n" + flexStats, true);
+                var flexStats = (flexWins+flexLosses+"G") +" " + json[1]['wins']+"W/"+json[1]['losses']+"L";
+                embed.addField('Ranked Flex', flexRank + "\n" + flexStats + "\n WR:" + Math.round((flexWins)/(flexWins+flexLosses)*100)+"%", true);
                 }catch(e){
 
                 }
@@ -85,13 +86,13 @@ module.exports.run = async (bot, message, args) => {
                 }).then(async function(json){
                     var obj = JSON.parse(fs.readFileSync('./commands/gamemodes.json', 'utf8'));
                     if(json['gameId']){
-                        embed.addField('Live Game', `${username} has been playing ${obj[json['gameQueueConfigId']]["Custom"]} for ${Math.floor(json['gameLength']/60)} minutes and ${json['gameLength']%60} seconds`)
+                        embed.setFooter(`${username} has been playing ${obj[json['gameQueueConfigId']]["Custom"]} for ${Math.floor(json['gameLength']/60)} minutes and ${json['gameLength']%60} seconds`)
                     }else{
-                        embed.addField('Live Game', `${username} is not currently in game`)
+                        embed.setFooter(`${username} is not currently in game`)
                     }
                     var temp = await getLastMatch(prefix, accountId);
                     var matchData = await getMatchStats(temp['gameId'], accountId, prefix);
-                    embed.addField('Last Game', `${obj[matchData['type']]['Custom']} as ${champIds[matchData.champion]} and went ${matchData.kills}/${matchData.deaths}/${matchData.assists} and had ${matchData.cs} CS`)
+                    embed.addField('Last Game', `${obj[matchData['type']]['Custom']} as ${champIds[matchData.champion]} and went ${matchData.kills}/${matchData.deaths}/${matchData.assists} and had ${matchData.cs} CS`, true)
                     message.channel.send(embed);
                 })
                 
@@ -116,7 +117,7 @@ async function getWinRate(prefix, accountId){
         }).then(function(response){
             return response.json();
         }).then(async function(json){
-            var len = Math.min(json['matches'].length, 10);
+            var len = Math.min(json['matches'].length, 2);
             var wins = 0;
             for(var i = 0; i < len; i++){
                 var gameId = json['matches'][i]['gameId'];
