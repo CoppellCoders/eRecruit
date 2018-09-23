@@ -43,13 +43,12 @@ module.exports.run = async (bot, message, args) => {
             return response.json();
         }).then(function(json){
             let embed = new Discord.RichEmbed()
-            //embed.setThumbnail('http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/'+icon+'.png')
+            embed.setThumbnail('http://ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/'+icon+'.png')
             embed
             .setColor('#FFDF00')
             .setTitle(`LOL PROFILE: ${name.toUpperCase()}`)
             .addField(`Level/Region`, `${level}/${region}`, true)
             .addField('Recent Games', `${winRates.games} G ${winRates.wins}W/${winRates.losses}L WR: ${winRates.percent} %`, true)
-            .addBlankField(true)
             .addField('Top Mastery: ', `[${json[0]['championLevel']}] 1.${champIds[json[0]['championId']]} : ${json[0]['championPoints']}
             [${json[1]['championLevel']}] 2.${champIds[json[1]['championId']]} : ${json[1]['championPoints']}
             [${json[2]['championLevel']}] 3.${champIds[json[2]['championId']]} : ${json[2]['championPoints']}`, true)
@@ -92,7 +91,23 @@ module.exports.run = async (bot, message, args) => {
                     }
                     var temp = await getLastMatch(prefix, accountId);
                     var matchData = await getMatchStats(temp['gameId'], accountId, prefix);
-                    embed.addField('Last Game', `${obj[matchData['type']]['Custom']} as ${champIds[matchData.champion]} and went ${matchData.kills}/${matchData.deaths}/${matchData.assists} and had ${matchData.cs} CS`, true)
+                    var text = `${obj[matchData['type']]['Custom']}- ${champIds[matchData.champion]} (${matchData.kills}/${matchData.deaths}/${matchData.assists}, ${matchData.cs} CS)`;
+                    var parts = text.split(' ');
+                    console.log(parts);
+                    var newText = '';
+                    var curLen = 0;
+                    for(var i = 0; i < parts.length; i++){
+                        curLen += parts[i].length+1;
+                        console.log(parts[i]);
+                        console.log(curLen);
+                        if(curLen > 20){
+                            newText += '\n';
+                            curLen -= 20;
+                        }
+                        newText += parts[i] + ' ';
+                    }
+                    console.log(newText)
+                    embed.addField('Last Game', newText, true)
                     message.channel.send(embed);
                 })
                 
