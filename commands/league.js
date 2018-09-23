@@ -34,9 +34,7 @@ module.exports.run = async (bot, message, args) => {
         .setTitle(`LOL PROFILE: ${name.toUpperCase()}`)
         .addField(`Level/Region`, `${level}/${region}`, true)
         .addField('Recent Games', `${winRates.games} G ${winRates.wins}W/${winRates.losses}L WR: ${winRates.percent} %`, true)
-        .addField('Top Mastery: ', `[${masteryData[0]['championLevel']}] 1.${champIds[masteryData[0]['championId']]} : ${masteryData[0]['championPoints']}
-            [${masteryData[1]['championLevel']}] 2.${champIds[masteryData[1]['championId']]} : ${masteryData[1]['championPoints']}
-            [${masteryData[2]['championLevel']}] 3.${champIds[masteryData[2]['championId']]} : ${masteryData[2]['championPoints']}`, true)
+        .addField('Top Mastery: ', `[${masteryData[0]['championLevel']}] 1.${champIds[masteryData[0]['championId']]} : ${masteryData[0]['championPoints']}\n[${masteryData[1]['championLevel']}] 2.${champIds[masteryData[1]['championId']]} : ${masteryData[1]['championPoints']}\n[${masteryData[2]['championLevel']}] 3.${champIds[masteryData[2]['championId']]} : ${masteryData[2]['championPoints']}`, true)
         .addField('Ranked Solo', soloData.rank + "\n" + soloData.stats + "\n" + soloData.percent, true)
         .addField('Ranked Flex', flexData.rank + "\n" + flexData.stats + "\n" + flexData.percent, true)
         .addField('Last Game', limitText(text, 20), true)
