@@ -5,13 +5,14 @@ const firebase = require("firebase");
 //help
 module.exports.run = async (bot, message, args) => {
   var config = {
-    apiKey: "AIzaSyDfZkLtQ8mjNp4Wblf-GUlwArlps3qQl3o",
-    authDomain: "erecruit-17f9d.firebaseapp.com",
-    databaseURL: "https://erecruit-17f9d.firebaseio.com",
-    projectId: "erecruit-17f9d",
-    storageBucket: "erecruit-17f9d.appspot.com",
-    messagingSenderId: "759704634176"
+    apiKey: process.env.firebaseAPI,
+    authDomain: "erecuiter-88acd.firebaseapp.com",
+    databaseURL: "https://erecuiter-88acd.firebaseio.com",
+    projsectId: "erecuiter-88acd",
+    storageBucket: "erecuiter-88acd.appspot.com",
+    messagingSenderId: "129664206886"
   };
+
  // firebase.initializeApp(config);
   if (!firebase.apps.length) {
     firebase.initializeApp(config);
