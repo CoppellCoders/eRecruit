@@ -1,6 +1,8 @@
 # eRecruit
 
-A discord bot that shows gamestats of potential esport recruitees.
+## [Link to Discord Page](https://discordbots.org/bot/493113844940668932)
+
+A discord bot that shows gamestats of potential esport recruitees. 
 
 Made by:
 
