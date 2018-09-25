@@ -11,8 +11,12 @@ module.exports.run=async(bot, message, args) =>{
    if(args[0].toUpperCase()=="season".toUpperCase()||args[0]=="seasons".toUpperCase()){
     console.log("SEASONS");   
     let embed=new Discord.RichEmbed().setTitle("**PUBG SEASONS LIST**");
-        console.log(getSeasons());
-
+        let seasons= await getSeasons();
+        console.log(seasons.length);
+        for (let index = 0; index < seasons.length; index++) {
+            embed.addField(seasons[index],"TEST");
+            
+        }
         return message.channel.send(embed);
     }
 
@@ -50,26 +54,38 @@ module.exports.run=async(bot, message, args) =>{
         let id = stats.id;
         let playerName=stats[0].attributes.name;
         return{
-         name: playerName, 
-         id: id   
-         };
+            name: playerName, 
+            id: id   
+        };
     }
 
    async function getSeasons(){
+        let {body} = await superagent
+            .get(`https://api.pubg.com/shards/pc-na/seasons`)
+            .set("Authorization", process.env.pubg_key)
+            .set("accept", "application/vnd.api+json")
+            .on("error", err=>{
+                return message.channel.send(
+                    "Error occurred while retrieving season stats. Please try again later.\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
+                );
+            });
 
-    let {body} = await superagent
-        .get(`https://api.pubg.com/shards/pc-na/seasons`)
-        .set("Authorization", process.env.pubg_key)
-        .set("accept", "application/vnd.api+json")
-        .on("error", err=>{
-            return message.channel.send(
-                "Error occurred while retrieving season stats. Please try again later.\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
-            );
+        let data =body.data;
+        
+        let seasonsNames =new Array();
+        for (let index = 0; index < data.length; index++) {
+            
+            seasonsNames.push(body.data[index].id);
+        }
+
+      
+        seasonsNames.reverse();
+        seasonsNames.forEach(function(element,index ) {
+          seasonsNames[index]= element.substring(element.lastIndexOf(".")+1);
+            
         });
-
-        console.log(body);
-
-        return body;
+        console.log(seasonsNames);
+        return seasonsNames;
    }
 }
    
