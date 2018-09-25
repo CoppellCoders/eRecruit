@@ -8,48 +8,52 @@ module.exports.run=async(bot, message, args) =>{
     }
     let username =args[0];
     
-   if(args[0].toUpperCase()=="season".toUpperCase()||args[0]=="seasons".toUpperCase()){
+    //If the input is '.pubg season or .pubg seasons
+    if(args[0].toUpperCase()=="season".toUpperCase()||args[0]=="seasons".toUpperCase()){
     console.log("SEASONS");   
     let embed=new Discord.RichEmbed().setTitle("**PUBG SEASONS LIST**");
         let seasons= await getSeasons();
         console.log(seasons.length);
         for (let index = 0; index < seasons.length; index++) {
-            embed.addField(seasons[index],"TEST");
+            embed.addField(seasons[index],"TEST",true);
             
         }
         return message.channel.send(embed);
     }
 
-   else if(!args[2]){
-       let profileStats= await getProfileStats(username); //Gets basic stats
+    //If the input is .pubg <username>
+    else if(!args[2]){
+        let profileStats= await getProfileStats(username); //Gets basic stats
 
         console.log(profileStats);
 
-       let embed= new Discord.RichEmbed().setTitle(`**PUBG STATS FOR ${profileStats.name.toUpperCase()}**`);
+        let embed= new Discord.RichEmbed().setTitle(`**PUBG STATS FOR ${profileStats.name.toUpperCase()}**`);
 
-       return message.channel.send(embed);
-   }
+        return message.channel.send(embed);
+    }
 
    //Gets stats of a profile with provided Username
    async function getProfileStats(username) {
-    //Accesses the API 
-    let {body} = await superagent
-        .get(`https://api.pubg.com/shards/pc-na/players?filter[playerNames]=${username}`)
-        .set("Authorization", process.env.pubg_key)
-        .set("accept", "application/vnd.api+json")
-        .on("error", err=>{
-            return message.channel.send(
-                "Error occurred while retrieving player stats. Please try again later.\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
-            );
-        });
-    console.log(body);
-    //API error Handling
+        //Accesses the API 
+        let {body} = await superagent
+            .get(`https://api.pubg.com/shards/pc-na/players?filter[playerNames]=${username}`)
+            .set("Authorization", process.env.pubg_key)
+            .set("accept", "application/vnd.api+json")
+            .on("error", err=>{
+                return message.channel.send(
+                    "Error occurred while retrieving player stats. Please try again later.\n\n **If this problem keeps arising, make sure you use the `.issue` command to report any issues with the bot**"
+                );
+            });
+
+        //API error Handling
         if(Object.keys(body).length===0){
             return message.channel.send(
                 "Error occurred while retrieving player stats. Please try again later"
             );
-           
+            
         }
+
+        //Get needed data
         let stats = body.data;
         let id = stats.id;
         let playerName=stats[0].attributes.name;
@@ -59,6 +63,7 @@ module.exports.run=async(bot, message, args) =>{
         };
     }
 
+    //Gets the PUBG seasons and returns them with newest first, reverse Sorted.
    async function getSeasons(){
         let {body} = await superagent
             .get(`https://api.pubg.com/shards/pc-na/seasons`)
@@ -66,7 +71,7 @@ module.exports.run=async(bot, message, args) =>{
             .set("accept", "application/vnd.api+json")
             .on("error", err=>{
                 return message.channel.send(
-                    "Error occurred while retrieving season stats. Please try again later.\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
+                    "Error occurred while retrieving season stats. Please try again later.\n\n **If this problem keeps arising, make sure you use the `.issue` command to report any issues with the bot**"
                 );
             });
 
