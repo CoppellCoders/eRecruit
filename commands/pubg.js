@@ -81,8 +81,7 @@ module.exports.run=async(bot, message, args) =>{
       
         seasonsNames.reverse();
         seasonsNames.forEach(function(element,index ) {
-          seasonsNames[index]= element.substring(element.lastIndexOf(".")+1);
-            
+          seasonsNames[index]= element.substring(element.lastIndexOf(".")+1);     
         });
         console.log(seasonsNames);
         return seasonsNames;
