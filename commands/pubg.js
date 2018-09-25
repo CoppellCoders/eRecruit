@@ -8,8 +8,15 @@ module.exports.run=async(bot, message, args) =>{
     }
     let username =args[0];
     
+   if(args[0].toUpperCase()=="season".toUpperCase()||args[0]=="seasons".toUpperCase()){
+    console.log("SEASONS");   
+    let embed=new Discord.RichEmbed().setTitle("**PUBG SEASONS LIST**");
+        console.log(getSeasons());
 
-   if(!args[2]){
+        return message.channel.send(embed);
+    }
+
+   else if(!args[2]){
        let profileStats= await getProfileStats(username); //Gets basic stats
 
         console.log(profileStats);
@@ -18,6 +25,8 @@ module.exports.run=async(bot, message, args) =>{
 
        return message.channel.send(embed);
    }
+
+   //Gets stats of a profile with provided Username
    async function getProfileStats(username) {
     //Accesses the API 
     let {body} = await superagent
@@ -44,9 +53,26 @@ module.exports.run=async(bot, message, args) =>{
          name: playerName, 
          id: id   
          };
+    }
+
+   async function getSeasons(){
+
+    let {body} = await superagent
+        .get(`https://api.pubg.com/shards/pc-na/seasons`)
+        .set("Authorization", process.env.pubg_key)
+        .set("accept", "application/vnd.api+json")
+        .on("error", err=>{
+            return message.channel.send(
+                "Error occurred while retrieving season stats. Please try again later.\n\n **If this problem keeps arising, make sure you use the `!issue` command to report any issues with the bot**"
+            );
+        });
+
+        console.log(body);
+
+        return body;
    }
 }
-
+   
 module.exports.help = {
     name: "pubg"
   };
