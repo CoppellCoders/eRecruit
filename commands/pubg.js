@@ -14,7 +14,7 @@ module.exports.run=async(bot, message, args) =>{
 
         console.log(profileStats);
 
-       let embed= new Discord.RichEmbed().setTitle(`##PUBG STATS FOR ${profileStats.name.toUpperCase()}##`);
+       let embed= new Discord.RichEmbed().setTitle(`**PUBG STATS FOR ${profileStats.name.toUpperCase()}**`);
 
        return message.channel.send(embed);
    }
