@@ -9,7 +9,7 @@ module.exports.run=async(bot, message, args) =>{
     let username =args[0];
     
     //If the input is '.pubg season or .pubg seasons
-    if(args[0].toUpperCase()=="season".toUpperCase()||args[0]=="seasons".toUpperCase()){
+    if(args[0].toUpperCase()=="seasons".toUpperCase()||args[0]=="season".toUpperCase()){
     console.log("SEASONS");   
     let embed=new Discord.RichEmbed().setTitle("**PUBG SEASONS LIST**");
         let seasons= await getSeasons();
