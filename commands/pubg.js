@@ -18,6 +18,7 @@ module.exports.run=async(bot, message, args) =>{
             embed.addField(seasons[index],"TEST",true);
             
         }
+        embed.setThumbnail("https://pngimg.com/uploads/pubg/pubg_PNG57.png");
         return message.channel.send(embed);
     }
 
