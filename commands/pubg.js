@@ -30,14 +30,14 @@ module.exports.run=async(bot, message, args) =>{
         let seasonsStats=new Array();
         let embed= new Discord.RichEmbed().setTitle(`PUBG SEASONS FOR ${args[1]}`);
 
-
-        console.log(seasons.length);
-
         //Sets the player stats for every season to seasons of that index
-        for (let index = 0; index < seasons.length; index++) {
-            seasonsStats.push(getPlayerSeasonStats(id,seasons[index]));
-            console.log(seasons[index]); 
-        }
+        //for (let index = 0; index < seasons.length&& index<8; index++) {
+          //  seasonsStats.push(await getPlayerSeasonStats(id,seasons[index]));
+          //  console.log(seasons[index]); 
+        //}
+        let test=await getPlayerSeasonStats(id,seasons[0]);
+        console.log(test);
+        embed.addField(test.solo_fpp.kills);
         return message.channel.send(embed);
     }
 
@@ -153,7 +153,24 @@ module.exports.run=async(bot, message, args) =>{
             );
         });
 
-        return body;
+        let data=body.data.attributes.gameModeStats;
+        let duos=data.duo;
+        let duo_fpp=data.duo-fpp;
+        let solo=data.solo;
+        let solo_fpp=data.solo-fpp;
+        let squad=data.squad;
+        let squad_fpp=data.squad-fpp;
+        
+
+        return {
+            body: body,
+            duos: duos,
+            duo_fpp: duo_fpp,
+            solo: solo,
+            solo_fpp: solo_fpp,
+            squad: squad,
+            squad_fpp: squad_fpp
+        };
 
    }
 }
