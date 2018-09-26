@@ -37,7 +37,7 @@ module.exports.run=async(bot, message, args) =>{
         //}
         let test=await getPlayerSeasonStats(id,seasons[0]);
         console.log(test);
-        embed.addField(test.solo_fpp.kills);
+        embed.addField("Kills for some season",test.solo_fpp.kills);
         return message.channel.send(embed);
     }
 
@@ -155,11 +155,11 @@ module.exports.run=async(bot, message, args) =>{
 
         let data=body.data.attributes.gameModeStats;
         let duos=data.duo;
-        let duo_fpp=data.duo-fpp;
+        let duo_fpp=data["duo-fpp"];
         let solo=data.solo;
-        let solo_fpp=data.solo-fpp;
+        let solo_fpp=data["solo-fpp"];
         let squad=data.squad;
-        let squad_fpp=data.squad-fpp;
+        let squad_fpp=data["squad-fpp"];
         
 
         return {
